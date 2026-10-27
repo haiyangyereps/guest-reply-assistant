@@ -1,25 +1,41 @@
 # Guest Reply Assistant
 
-**Use case:** reduce repetitive drafting while keeping the host in control.
+**A review-first support workflow with explicit state transitions and an audit trail.**
 
-Input: guest question plus a small property knowledge JSON. Output: a draft awaiting approval, or escalation with no draft. Sensitive terms take priority over FAQ matches. There is no send action.
+Python portfolio prototype for English property FAQs. Rule-based matching creates a supported draft; sensitive, ambiguous, negative, or unknown requests escalate without a draft. A named human must approve before the local send adapter can run.
 
-```sh
-python3 projects/automation.py guest 'Is parking available?' --knowledge examples/property.json
+```mermaid
+flowchart LR
+ A[Guest question] --> B{Supported single topic?}
+ B -->|No| E[Escalated]
+ B -->|Yes| P[Pending review]
+ P --> R[Rejected]
+ P --> H[Approved by named reviewer]
+ H --> S[Local delivery sink]
 ```
 
-Expected status: `needs_approval`, `sent: false`, with the driveway information.
+## Run the complete workflow
+
+Python 3.10+, standard library only. From the repository root:
 
 ```sh
-python3 projects/automation.py guest 'I need a refund' --knowledge examples/property.json
+python3 assistant.py --db /tmp/guest-demo.db submit message-1 'Is parking available?'
+python3 assistant.py --db /tmp/guest-demo.db review message-1 approve --actor demo-host
+python3 assistant.py --db /tmp/guest-demo.db send message-1
+python3 assistant.py --db /tmp/guest-demo.db send message-1
+python3 assistant.py --db /tmp/guest-demo.db submit message-2 'I need a refund'
+python3 assistant.py --db /tmp/guest-demo.db status
+python3 -m unittest discover -s tests -v
 ```
 
-Expected status: `escalate`, `draft: null`.
+Expected: `pending → approved → sent`. Second send returns `replayed: true` without creating a second delivery. Refund request becomes `escalated`. Sending before approval, approving a rejected draft, and reusing an ID for different text are rejected. Use a new database path for a fresh demo.
 
-This is a deterministic prototype, not an AI agent or Airbnb API integration. Next steps: authorized inbox integration, multilingual intent testing, approval UI, audit logging, and evaluation before any LLM integration.
+## Scope and safety boundaries
 
-## Validation
+This is **not an LLM agent or live Airbnb integration**. The send adapter writes only to a local SQLite table; it sends no external messages. Approval and delivery are durable, local state transitions. Reviewer names are audit labels, not authenticated identities. Real deployment needs authenticated roles, an inbox adapter, message redaction, evaluation, access control and monitoring. A real external send requires its own idempotency and reconciliation policy.
 
-Run `python3 -m unittest discover -s tests -v` from the repository root.
+Matching is conservative but cannot understand every ambiguous request. It is English-only, keyword-based, and is not a complete safety classifier. Never enable unattended replies based on these rules. Knowledge entries must be trusted, non-sensitive facts; do not store door codes or passwords. Production integrations and LLM evaluation are future work, not claimed capabilities of this demo.
 
-This repository includes the shared automation module and regression tests. It is a local portfolio demonstration, not a production integration or client case study.
+## Evidence
+
+[Tests](tests/test_assistant.py) exercise forbidden state transitions, escalation cases, repeated inputs and delivery, and audit entries. Example property details are fictional. No customer data or production screenshots are included.
