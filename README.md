@@ -1,3 +1,43 @@
+# Guest Support Operations — Review, Respond, Resolve
+
+**Business question:** Which property needs a reply now, and can we prove the right person reviewed it?
+
+Version 0.3 adds property-scoped knowledge, ticket ownership, urgency triage, response deadlines, human-authored replies, approval, local delivery and resolution. Knowledge from another property is never used as a fallback. Urgent requests become escalated tickets without an automatic draft.
+
+## Run a support desk workflow
+
+Python 3.10+, standard library only. From this repository root:
+
+```sh
+python3 support_ops.py --db /tmp/support-ops.db property demo-property examples/property.json
+python3 support_ops.py --db /tmp/support-ops.db receive ticket-1 demo-property 'Is parking available?'
+python3 support_ops.py --db /tmp/support-ops.db act ticket-1 1 assign --actor demo-host --text demo-agent
+python3 support_ops.py --db /tmp/support-ops.db act ticket-1 2 approve --actor demo-agent
+python3 support_ops.py --db /tmp/support-ops.db act ticket-1 3 deliver --actor demo-agent
+python3 support_ops.py --db /tmp/support-ops.db act ticket-1 4 resolve --actor demo-agent
+python3 support_ops.py --db /tmp/support-ops.db queue
+```
+
+Each action returns the new version; use it for the next action. For an escalated ticket, `human_reply --text 'Your reviewed reply'` creates a draft requiring a separate approve action. Knowledge edits affect future tickets; existing drafts remain reviewable historical snapshots. One ticket represents one inbound message, not a multi-message conversation.
+
+[Inspect a synthetic support queue result](examples/queue-result.json)
+
+## Operational value and definitions
+
+Helps a small property-management team prioritize and track support consistently. Urgent keywords receive a 15-minute target; other messages receive a 4-hour target. These are configurable-in-code demo policies, not emergency response commitments. The queue shows unanswered tickets, urgent open tickets, SLA breaches, resolution count, and mean first-response seconds for responded tickets only. An unanswered queue must be considered alongside the average to avoid hiding waiting guests. Historical late replies remain marked as breaches.
+
+A useful paid implementation scope would include a specific authorized inbox adapter, property mapping, approved knowledge sources, staff permissions, and a tested escalation route. Evaluate supported-question coverage, first-response time, overdue tickets, and reviewer correction rate on authorized or synthetic data. No actual client SLA or time-saving claims are made.
+
+## Limits
+
+This is still an English deterministic workflow, not an LLM or live Airbnb/PMS connector. `deliver` only writes to SQLite; it does not notify a guest. Named actors are audit labels, not authenticated identities. There is no background alert sender or staff UI. Production needs identity/roles, alert delivery, connector reconciliation, knowledge governance and monitoring. Sensitive data and access codes must not be stored in public examples. The safety keyword rules are not a complete risk classifier; human review is mandatory.
+
+## Verify
+
+`python3 -m unittest discover -s tests -v` covers property isolation, message identity conflicts, urgent SLA, human handling, state/version guards, local delivery and historical breach calculation.
+
+## Previous interface single-property workflow (still supported)
+
 # Guest Reply Assistant
 
 **A review-first support workflow with explicit state transitions and an audit trail.**

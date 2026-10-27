@@ -1,0 +1,44 @@
+{
+  "summary": {
+    "tickets": 2,
+    "unanswered": 2,
+    "urgent_open": 1,
+    "sla_breaches": 1,
+    "resolved": 0,
+    "mean_first_response_seconds": null
+  },
+  "tickets": [
+    {
+      "id": "demo-2",
+      "property_id": "demo-property",
+      "body": "Emergency fire",
+      "priority": "urgent",
+      "status": "escalated",
+      "draft": null,
+      "reason": "sensitive request",
+      "owner": "unassigned",
+      "created": 1000.0,
+      "due": 1900.0,
+      "first_response": null,
+      "resolved": null,
+      "version": 1,
+      "sla_breached": true
+    },
+    {
+      "id": "demo-1",
+      "property_id": "demo-property",
+      "body": "parking?",
+      "priority": "normal",
+      "status": "needs_review",
+      "draft": "Hello! One space in the driveway.",
+      "reason": "knowledge match; human review required",
+      "owner": "unassigned",
+      "created": 1000.0,
+      "due": 15400.0,
+      "first_response": null,
+      "resolved": null,
+      "version": 1,
+      "sla_breached": false
+    }
+  ]
+}
