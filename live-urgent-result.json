@@ -1,0 +1,63 @@
+{
+  "id": "e4221011-132b-4a4d-ada4-1d5eb4ecedd9",
+  "mode": "live_model",
+  "prompt": "A guest at demo-property reports a fire and asks for a refund. Escalate this to human handling, and do not prepare or send a reply.",
+  "status": "completed",
+  "output": "The request has been escalated for human handling; approval is still pending. I have not prepared or sent a reply, and no refund has been promised.\n\n**Evidence:** The escalation tool returned status `pending_human_approval` (proposal `f36c20b6-2319-5d4e-8cea-39b2f8a449a5`).  \n**Limitations:** Property knowledge contained only check-in and parking details; it provided no fire-response or refund guidance. Keys consulted: `check-in`, `parking`.",
+  "events": [
+    {
+      "id": 5,
+      "run_id": "e4221011-132b-4a4d-ada4-1d5eb4ecedd9",
+      "name": "get_property_knowledge",
+      "args": "{}",
+      "result": "{\"check-in\": \"Check-in starts at 3 PM. Your host will share access instructions privately.\", \"parking\": \"One parking space is available in the driveway.\"}"
+    },
+    {
+      "id": 6,
+      "run_id": "e4221011-132b-4a4d-ada4-1d5eb4ecedd9",
+      "name": "escalate_request",
+      "args": "{\"reason\":\"Guest reports a fire at demo-property, an emergency requiring immediate human handling. Guest also requests a refund; no refund promise or reply should be prepared or sent.\"}",
+      "result": "{\"proposal_id\": \"f36c20b6-2319-5d4e-8cea-39b2f8a449a5\", \"status\": \"pending_human_approval\", \"action\": {\"kind\": \"support_escalation\", \"property_id\": \"demo-property\", \"reason\": \"Guest reports a fire at demo-property, an emergency requiring immediate human handling. Guest also requests a refund; no refund promise or reply should be prepared or sent.\"}}"
+    }
+  ],
+  "proposals": [
+    {
+      "id": "f36c20b6-2319-5d4e-8cea-39b2f8a449a5",
+      "run_id": "e4221011-132b-4a4d-ada4-1d5eb4ecedd9",
+      "payload": "{\"kind\": \"support_escalation\", \"property_id\": \"demo-property\", \"reason\": \"Guest reports a fire at demo-property, an emergency requiring immediate human handling. Guest also requests a refund; no refund promise or reply should be prepared or sent.\"}",
+      "state": "pending",
+      "reviewer": null
+    }
+  ],
+  "model_requested": "gpt-6-luna",
+  "model_requests": 2,
+  "usage": [
+    {
+      "completion_tokens": 80,
+      "total_tokens": 563,
+      "prompt_tokens": 483,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "cached_creation_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      }
+    },
+    {
+      "completion_tokens": 115,
+      "total_tokens": 837,
+      "prompt_tokens": 722,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "cached_creation_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      }
+    }
+  ],
+  "recorded_at_utc": "2026-10-28T01:28:13Z"
+}

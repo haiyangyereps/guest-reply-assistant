@@ -1,0 +1,32 @@
+{
+  "id": "1199f765-2064-4bff-8245-e80e21f7b8e4",
+  "mode": "live_model",
+  "prompt": "For demo-property, a guest asks: Is parking available? Check the approved knowledge and prepare a reply for review.",
+  "status": "completed",
+  "output": "**Draft for review:** Yes—one parking space is available in the driveway.\n\n**Evidence:** Approved knowledge key `parking`: “One parking space is available in the driveway.”\n\n**Status:** Pending human approval; this draft has not been sent.",
+  "events": [
+    {
+      "id": 3,
+      "run_id": "1199f765-2064-4bff-8245-e80e21f7b8e4",
+      "name": "get_property_knowledge",
+      "args": "{}",
+      "result": "{\"check-in\": \"Check-in starts at 3 PM. Your host will share access instructions privately.\", \"parking\": \"One parking space is available in the driveway.\"}"
+    },
+    {
+      "id": 4,
+      "run_id": "1199f765-2064-4bff-8245-e80e21f7b8e4",
+      "name": "propose_reply",
+      "args": "{\"knowledge_key\":\"parking\",\"reply\":\"Yes—one parking space is available in the driveway.\"}",
+      "result": "{\"proposal_id\": \"ec375155-f446-579a-8a47-dd1cd37054e1\", \"status\": \"pending_human_approval\", \"action\": {\"kind\": \"guest_reply\", \"property_id\": \"demo-property\", \"reply\": \"Yes—one parking space is available in the driveway.\", \"knowledge_key\": \"parking\", \"source_fact\": \"One parking space is available in the driveway.\"}}"
+    }
+  ],
+  "proposals": [
+    {
+      "id": "ec375155-f446-579a-8a47-dd1cd37054e1",
+      "run_id": "1199f765-2064-4bff-8245-e80e21f7b8e4",
+      "payload": "{\"kind\": \"guest_reply\", \"property_id\": \"demo-property\", \"reply\": \"Yes\\u2014one parking space is available in the driveway.\", \"knowledge_key\": \"parking\", \"source_fact\": \"One parking space is available in the driveway.\"}",
+      "state": "pending",
+      "reviewer": null
+    }
+  ]
+}

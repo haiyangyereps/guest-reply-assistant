@@ -1,0 +1,9 @@
+Guest Support Agent | Knowledge Lookup & Human Review
+
+Python Developer | AI Support Workflows
+
+Built a support agent that retrieves approved property knowledge and prepares evidence-linked reply drafts for human review. Live tests produced a grounded parking reply and escalated a fire/refund request without drafting a reply. Tool permissions, argument validation, bounded execution, and a SQLite review queue make the workflow inspectable. The demo uses one fictional property and local tools; it has no live Airbnb/PMS connection or external message delivery.
+
+Skills: AI Agent Development, AI Automation, Python, Business Process Automation, Task Automation
+
+Image caption: Live model tests: grounded parking reply and urgent-request escalation. Drafts remain pending review; no messages sent.

@@ -1,0 +1,32 @@
+{
+  "id": "066a1022-6f61-4797-baa7-a5685750ee9a",
+  "mode": "scripted_fixture",
+  "prompt": "For demo-property, a guest asks: Is parking available? Check the approved knowledge and prepare a reply for review.",
+  "status": "completed",
+  "output": "SCRIPTED FIXTURE: A property-scoped reply is awaiting review. No external delivery occurred.",
+  "events": [
+    {
+      "id": 1,
+      "run_id": "066a1022-6f61-4797-baa7-a5685750ee9a",
+      "name": "get_property_knowledge",
+      "args": "{}",
+      "result": "{\"check-in\": \"Check-in starts at 3 PM. Your host will share access instructions privately.\", \"parking\": \"One parking space is available in the driveway.\"}"
+    },
+    {
+      "id": 2,
+      "run_id": "066a1022-6f61-4797-baa7-a5685750ee9a",
+      "name": "propose_reply",
+      "args": "{\"knowledge_key\": \"parking\", \"reply\": \"Please review the parking information from the approved property record before sending this reply.\"}",
+      "result": "{\"proposal_id\": \"fc1bfcd4-7f8f-51c2-915c-001ffbb5fe60\", \"status\": \"pending_human_approval\", \"action\": {\"kind\": \"guest_reply\", \"property_id\": \"demo-property\", \"reply\": \"Please review the parking information from the approved property record before sending this reply.\", \"knowledge_key\": \"parking\", \"source_fact\": \"One parking space is available in the driveway.\"}}"
+    }
+  ],
+  "proposals": [
+    {
+      "id": "fc1bfcd4-7f8f-51c2-915c-001ffbb5fe60",
+      "run_id": "066a1022-6f61-4797-baa7-a5685750ee9a",
+      "payload": "{\"kind\": \"guest_reply\", \"property_id\": \"demo-property\", \"reply\": \"Please review the parking information from the approved property record before sending this reply.\", \"knowledge_key\": \"parking\", \"source_fact\": \"One parking space is available in the driveway.\"}",
+      "state": "pending",
+      "reviewer": null
+    }
+  ]
+}
